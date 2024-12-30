@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+{% load allauth account %}
+
+
+{% block head_title%}
+- Sign in
+{% endblock head_title %}
+
+{% block base_content %}
+<div class="max-w-xl mx-auto mt-10">
+    <div class="bg-gray-800 text-white p-6 lg:p-16 rounded-md">
+        <div class="flex flex-col text-center">
+            <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold">Sign in to your account</h1>
+            <p class="text-sm mt-1">Or <a class="font-bold hover:shadow-underline" href="{{ signup_url }}">sign up instead</a></p>
+        </div>
+
+        <form method="POST" class="space-y-6 mb-4">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                {% for field, errors in form.errors.items %}
+
+                {% for error in errors %}
+                    <div class="text-red-500 text-base p-2 bg-red-100 rounded-md"> 
+                        {{error}}
+                    </div>
+                {% endfor %}
+
+                {% endfor %}
+            {% endif %}
+
+            <div>
+                <label class="sr-only" for="{{ form.login.id_for_label }}">Email</label>
+                <div class="form-field">
+                    {% render_field form.login %}
+                </div>
+            </div>
+
+            <div>
+                <label class="sr-only" for="{{ form.password.id_for_label }}">Email</label>
+                <div class="form-field">
+                    {% render_field form.password %}
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                {% render_field form.remember class="focus:ring-emerald-500 w-4 h-4 text-emerald-600 border-gray-300 rounded" %}
+
+                <label class="text-sm" for="{{ form.remember.id_for_label }}">
+                    {{ form.remember.label }}
+                </label>
+            </div>
+
+            <button type="submit" class="button primary w-full">Sign in</button>
+
+            {% if SOCIALACCOUNT_ENABLED %}
+                {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock base_content %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %} 
+{% comment %} This how load the extensions to a template ⬇️ {% endcomment %}
+{% load humanize %} 
+
+{% block head_title %}
+- Home
+{% endblock head_title %}
+
+{% block base_content %}
+	<h1 class="title pb-4">Articles</h1>
+
+	{% comment %} in here when showing number of articles better to use cache to avoid performance issue {% endcomment %}
+	<p class="text-lg pb-6">
+		You have created <strong>{{ user.articles_count | intcomma }} 
+		article{{ user.articles_count | pluralize }}</strong> and 
+		written <strong>{{ user.written_words | intcomma}}
+		word{{ user.written_words | pluralize }}</strong>!
+	</p>
+
+	<a class="button primary inline-block w-full sm:w-auto mb-4" href="{% url "create_article" %}">Create new article</a>
+
+	<h2 class="subtitle pb-6">Your latest articles</h2>
+
+	<form method="GET" class="flex gap-4 pb-6">
+		<input 
+			type="search" 
+			name="search" 
+			placeholder="Search articles" 
+			class="flex-1 p-2 text-base max-w-72 rounded-md border-2 border-gray-200 focus:ring-emerald-500 focus:outline-none focus:ring-0 focus:border-emerald-500"
+			value="{{ request.GET.search }}"
+			hx-get="{{ request.path }}"
+			hx-trigger="input changed delay:500ms, search"
+			hx-target=".article-results"
+			hx-select=".article-results"
+			hx-indicator="svg.loading"
+			hx-disabled-elt="next button"
+			hx-push-url="true"
+		/>
+		<button type="submit" class="button secondary flex gap-2 [&>.loading.htmx-request.hidden]:!inline-block [&>.loading.htmx-request]:hidden disabled:cursor-not-allowed disabled:opacity-50">
+			{% include "svg/magnifier.svg" with class="loading w-6 h-6" %}
+			{% include "svg/loading.svg" with class="loading animate-spin w-6 h-6 hidden" %}
+			Search
+		</button>
+
+		<a href="{{ request.path }}" class="button secondary">Clear search</a>
+
+	</form>
+
+	<div class="article-results">
+
+		{% if articles %}
+			<ul preload="mouseover">
+				{% for article in articles %}
+				<li class="flex flex-col">
+					<div class="flex items-center gap-2"> 
+						<a class="text-2xl font-semibold flex items-center gap-1" href="{% url "update_article" article.id %}"> 
+						{{ article.title }} </a> 
+						<span class="bg-gray-300 rounded-md text-gray-800 px-3 capitalize article-status-{{ article.status }}">{{ article.status }}</span>
+					</div>
+					<div>
+						{{ article.word_column }} 
+						word{{article.word_column | pluralize}}
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+
+			<div class="flex items-center justify-center gap-4 my-6">
+				{% if is_paginated %}
+					{% if page_obj.has_previous %}
+						<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+							{% include "svg/chevron.svg" with class="w-5 h-5 border border-gray-800 rounded-md p-1 rotate-180" %}
+						</a>
+					{% endif %}
+					<span>page <strong>{{ page_obj.number }}</strong> of <strong>{{ paginator.num_pages }}</strong></span>
+					{% if page_obj.has_next %}
+						<a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+							{% include "svg/chevron.svg" with class="w-5 h-5 border border-gray-800 rounded-md p-1" %}
+						</a>		
+					{% endif %}
+				{% endif %}
+			</div>
+
+		{% else %}
+		<p>No articles right now.</p>
+		{% endif %}
+
+	</div>
+
+{% endblock base_content %}

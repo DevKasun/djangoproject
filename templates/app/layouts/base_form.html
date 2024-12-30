@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block base_content %}
+
+<form 
+	method="POST"
+	x-data="{
+		articleStatus: ''
+	}"
+>
+	{% csrf_token %}
+
+	<div>
+		{% render_field form.title class="p-2 text-3xl w-full rounded-md border-2 border-gray-200 focus:ring-emerald-500 focus:outline-none focus:ring-0 focus:border-emerald-500" placeholder="Write a title for your article" %}
+	</div>
+
+	<div class="py-6 flex items-center gap-8">
+		{% render_field form.category class="p-1 py-2 rounded-sm bg-emerald-200 text-xs border-none uppercase focus:outline-none" %}
+		
+		{% render_field form.status class="p-1 py-2 font-semibold rounded-md text-xs border-none uppercase focus:outline-none" x-bind::class="`article-status-${articleStatus}`" x-model.fill="articleStatus" %}
+
+		{% block article_status %}
+
+		{% endblock article_status %}
+	</div>
+
+	
+	{% render_field form.content class="p-2 text-3xl w-full rounded-md border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" %}
+
+	<div classs="py-6">
+		<p class="text-xl font-semibold mb-2">{{ form.twitter_post.label }}</p>
+		{% render_field form.twitter_post rows=10 class="p-2 text-lg w-full rounded-md border-2 border-gray-200 focus:ring-emerald-500 focus:outline-none focus:ring-0 focus:border-emerald-500" placeholder="Write a title for your article" %}
+	</div>
+	
+	{% block buttons %}
+	{% endblock buttons %}
+</form>
+
+{% endblock base_content %}
+
+{% block page_js %}
+<script>
+	const contentmarkdown = new EasyMDE(
+		{
+			element: document.getElementById('id_content'), 
+			spellChecker: false,
+			status: true,
+			toolbar: true,
+			forceSync: true,
+			toolbar: [
+				{
+					name: "bold",
+					action: EasyMDE.toggleBold,
+					className: "fa fa-bold",
+					title: "Bold",
+				},
+				"|",
+				"italic",
+				"|",
+				"heading",		
+				"|",
+			]
+		}
+	);
+</script>
+{% endblock page_js %}

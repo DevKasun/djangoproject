@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+{% load allauth account %}
+
+
+{% block head_title%}
+- Sign up
+{% endblock head_title %}
+
+{% block base_content %}
+
+<div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-0 md:mt-16 items-start">
+    <div class="col-span-3 pt-6 text-center md:text-left">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 max-w-2xl">
+            Write and collaborate 
+            <div class="block">
+                on your 
+                <span class="text-emerald-600">next pieces</span>
+            </div>
+        </h1>
+        <p class="text-lg font-normal text-gray-800 py-3 md:py-6">Write on our platform for maximum productivity</p>
+    </div>
+    <div class="col-span-2">
+        <div class="bg-gray-800 text-white p-6 lg:p-10 rounded-md">
+            <div class="flex flex-col text-center">
+                <div class="flex flex-col text-left">
+                    <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold">Sign in to your account</h1>
+                </div>
+                <form method="POST" class="space-y-6 mb-4">
+                    {% csrf_token %}
+
+                    <div>
+                        <label class="sr-only" for="{{ form.email.id_for_label }}">Email</label>
+                        <div class="form-field">
+                            {% render_field form.email %}
+                        </div>
+                    </div>
+        
+                    <div>
+                        <label class="sr-only" for="{{ form.password1.id_for_label }}">Email</label>
+                        {% if form.password1.errors %}
+                            <div class="error text-left mb-2 [&>ul]:flex [&>ul]:flex-col [&>ul]:gap-1">
+                                {{ form.password1.errors }}
+                            </div>
+                        {% endif %}
+                        <div class="form-field">
+                            {% render_field form.password1 %} 
+                        </div>
+
+                        <details class="text-left text-sm rounded-md border border-gray-700 mt-2 [&_svg]:open:rotate-90 appearance-none">
+                            <summary class="flex justify-between items-center p-2 cursor-pointer">
+                                <div>Password requirements</div>
+                                <span>{% include "svg/chevron.svg" with class="w-5 h-5" %}</span>
+                            </summary>
+                            <div class="px-2 py-1 mt-2 min-w-full [&>ul>li]:mb-2 w-0">{{ form.password1.help_text | safe }}</div>
+                        </details>
+
+                    </div>
+
+                    <div>
+                        <label class="sr-only" for="{{ form.password2.id_for_label }}">Email</label>
+                        <div class="form-field">
+                            {% render_field form.password2 %} 
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <p>Already have an account? <a class='font-semibold hover:shadow-underline' href="{% url 'account_login' %}">Sign in instead</a></p>
+                    </div>
+        
+                    <button type="submit" class="button primary w-full !mt-2 ">Sign up</button>
+                </form>
+            </div>
+            <div class="pt-2">
+                <p>By signing up, you are agree to our <a href="#">Terms</a>, Data policy, and Cookie policy.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock base_content %}

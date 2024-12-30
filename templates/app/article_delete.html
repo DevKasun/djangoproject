@@ -1,0 +1,30 @@
+{% extends "base.html" %} 
+
+{% block head_title%}
+- Delete article
+{% endblock head_title %}
+
+{% block base_content %}
+
+<div class="article-delete-form flex flex-col items-center">
+	<div class="model-close absolute right-4 top-4 cursor-pointer">{% include 'svg/close.svg' with class="w-6 h-7" %}</div>
+	<h1 class="subtitle pb-4">Delete article</h1>
+	<p class="text-lg pb-6">Are you sure want to delete <strong>"{{article.title}}"</strong>?</p>
+
+	<div class="delete-form flex flex-row gap-4">
+		<form method="POST" action="{% url 'delete_article' article.id %}">
+			{% csrf_token %}
+			<button class="button danger" type="submit">Yes, Delete it!</button>
+		</form> 
+		<a 
+			class="button secondary flex flex-row items-center gap-2" 
+			href="{% url 'update_article' article.id %}">
+			<span>{% include "svg/arrow-left.svg" with class="w-4 h-4" %}</span>
+			No! take me back to the article!
+		</a>
+	</div>
+</div>
+
+{% endblock base_content %}
+
+

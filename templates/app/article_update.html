@@ -1,0 +1,49 @@
+{% extends "app/layouts/base_form.html" %} 
+
+{% block head_title%}
+- Update article
+{% endblock head_title %}
+
+{% block article_status %}
+	<p>{{article.word_column}} word{{ article.word_column | pluralize}}</p>
+	<p>Last edited on <strong>{{article.updated_at | date:"jS F Y" }}</strong></p>
+{% endblock article_status %}
+
+{% block buttons %}
+	<div class="py-6 flex justify-end items-center gap-4">
+		<a class="button danger cursor-pointer" hx-get="{% url 'delete_article' article.id %}" hx-target="#dialog" hx-select=".article-delete-form">Delete article</a>
+		<button class="button primary" type="submit">Save</button>
+	</div>
+{% endblock buttons %}
+
+{% block extra_body %}
+<div id="model" class="relative z-10 hidden">
+	<div class="bg-black/15 fixed inset-0"></div>
+	<div class="fixed inset-0 z-10 w-screen p-4">
+		<div id="dialog" class="relative max-w-2xl mx-auto bg-white p-16 rounded-md shadow-lg"></div>
+	</div>
+</div>
+{% endblock extra_body %}
+
+
+{% block page_js %}
+
+<script type="application/javascript">
+
+	document.addEventListener('DOMContentLoaded', function() {
+		const model = document.querySelector('#model');
+		
+		htmx.on("htmx:afterSwap", function(e) {
+			if (e.detail.target.id === 'dialog') {
+				model.classList.remove('hidden');
+			}
+		});
+
+		document.addEventListener('click', function(e){
+			model.classList.add('hidden');
+		})
+	});
+
+</script>
+
+{% endblock page_js %}

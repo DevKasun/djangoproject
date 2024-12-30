@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.title {
+  @apply text-5xl font-semibold;
+}
+
+.subtitle {
+  @apply text-4xl font-semibold;
+}
+
+.button {
+  @apply font-medium px-4 py-2 rounded-md shadow-sm;
+}
+
+.primary {
+  @apply border border-emerald-700 bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-emerald-500 focus:ring-offset-2;
+}
+
+.secondary {
+  @apply border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-gray-500 focus:ring-offset-2;
+}
+
+.danger {
+  @apply border border-red-300 bg-red-100 text-red-800 hover:bg-red-300 focus:outline-none focus:ring-red-200 focus:ring-offset-2;
+}
+
+/* EasyMD editor styles */
+.EasyMDEContainer {
+  @apply mb-6;
+}
+
+.EasyMDEContainer, textarea {
+  @apply border-[2px] rounded-md border-gray-200 focus:ring-emerald-500 focus:outline-none focus:ring-0 focus:border-emerald-500;
+}
+
+.EasyMDEContainer .editor-toolbar {
+  @apply border-t-0 border-l-0 border-r-0 border-b border-gray-200;
+}
+
+.EasyMDEContainer .CodeMirror {
+  @apply !border-none !bg-inherit;
+}
+
+.form-field input {
+  @apply block text-black shadow-sm border-2 border-gray-200 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 rounded-md text-sm p-2 w-full;
+}
+
+.error {
+  @apply text-red-500 text-base p-2 bg-red-100 rounded-md;
+}
+
+details summary::-webkit-details-marker {
+  display:none;
+}
+
+input[type="radio"] {
+  @apply accent-emerald-600;
+}
+
+.allauth-form input[type="email"] {
+  @apply w-full rounded-md mt-2 text-black shadow-sm border-2 border-gray-200 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-2
+}
+
+.allauth-form p:has(input[type="email"]) label {
+  @apply block mt-2 font-bold text-left;
+}
+
+.article-status-draft {
+  @apply bg-gray-200;
+}
+
+.article-status-published {
+  @apply bg-green-200;
+}
+
+.article-status-inprogress {
+  @apply bg-amber-200;
+}
+
+.flash-meesage-success {
+  @apply bg-emerald-100 text-emerald-800 border border-emerald-500;
+}
+
+.flash-meesage-error {
+  @apply bg-red-100 text-gray-800 border border-red-500;
+}
+
+.flash-meesage-info {
+  @apply bg-blue-100 text-blue-800 border border-blue-500;
+}
+
+.flash-meesage-warning {
+  @apply bg-yellow-100 text-yellow-800 border border-yellow-500;
+}
+
+.flash-meesage-debug {
+  @apply bg-gray-100 text-gray-800 border border-gray-500;
+}
